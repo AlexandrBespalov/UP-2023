@@ -90,3 +90,4 @@ def looking_for_certain_news(all_news_filepath, certain_news_filepath, target1, 
 
 
 write_all_news(f_all_news) #все новости
+looking_for_certain_news(f_all_news, f_certain_news, vector1, vector2) #новости по вектору
