@@ -7,11 +7,6 @@ import tkinter
 our_feeds = {'RBC': 'https://rssexport.rbc.ru/rbcnews/news/30/full.rss'}
 
 f_all_news = 'allnews.csv' 
-f_certain_news = 'certainnews.csv'
-
-vector1 = 'ДолЛАР|РубЛ|ЕвРО' #таргеты по ключевым словам
-vector2 = 'ЦБ|СбЕРбАНК|курс'
-
 
 
 def check_url(url_feed): #функция получает линк на rss ленту, возвращает распаршенную ленту с помощью feedpaeser
@@ -69,7 +64,7 @@ def write_all_news(all_news_filepath): #функция для записи вс�
             writer.writerow((a,b,c))
         print(all_news_filepath)
 
-        #df = pd.read_csv(all_news_filepath)
+        #df = pd.read_csv(all_news_filepath) #рудиментарная штука
 
 
     with open(all_news_filepath, 'r') as csv_file:
