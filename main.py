@@ -2,11 +2,12 @@ import feedparser
 import csv
 import pandas as pd
 import re
+import tkinter
 
 our_feeds = {'RBC': 'https://rssexport.rbc.ru/rbcnews/news/30/full.rss'}
 
-f_all_news = 'allnews23march.csv' 
-f_certain_news = 'certainnews23march.csv'
+f_all_news = 'allnews.csv' 
+f_certain_news = 'certainnews.csv'
 
 vector1 = 'ДолЛАР|РубЛ|ЕвРО' #таргеты по ключевым словам
 vector2 = 'ЦБ|СбЕРбАНК|курс'
@@ -33,8 +34,9 @@ def getLinks(url_feed): #функция для получения ссылки �
 def getDates(url_feed): #функция для получения даты публикации новости
     pubDate = []
     lenta = check_url(url_feed)
+
     for item_of_news in lenta['items']:
-        pubDate.append(item_of_news ['pubDate'])
+        pubDate.append(item_of_news ['published'])
     return pubDate
 
 
@@ -56,19 +58,24 @@ for key,url in our_feeds.items():
 
 
 def write_all_news(all_news_filepath): #функция для записи всех новостей в .csv, возвращает нам этот датасет
-    header = ['Title','Description','Links','Publication Date'] 
+    header = ['Title','Links','Publication Date'] 
 
-    with open(all_news_filepath, 'w', encoding='utf-8-sig') as csvfile:
+    with open(all_news_filepath, 'w', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
 
         writer.writerow(i for i in header) 
 
-        for a,b,c,d  in zip(allheadlines, alllinks, alldates):
-            writer.writerow((a,b,c,d))
+        for a,b,c  in zip(allheadlines, alllinks, alldates):
+            writer.writerow((a,b,c))
+        print(all_news_filepath)
 
-        df = pd.read_csv(all_news_filepath)
-            
-    return df
+        #df = pd.read_csv(all_news_filepath)
+
+
+    with open(all_news_filepath, 'r') as csv_file:
+        df = pd.read_csv(csv_file, na_filter=False)
+
+        return df
 
 
 
@@ -90,4 +97,3 @@ def looking_for_certain_news(all_news_filepath, certain_news_filepath, target1, 
 
 
 write_all_news(f_all_news) #все новости
-looking_for_certain_news(f_all_news, f_certain_news, vector1, vector2) #новости по вектору
