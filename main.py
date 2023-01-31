@@ -76,21 +76,21 @@ def write_all_news(all_news_filepath): #функция для записи вс�
 
 
 #функция для поиска, а затем записи определенных новостей по таргету, затем возвращает этот датасет
-def looking_for_certain_news(all_news_filepath, certain_news_filepath, target1, target2):
-    df = pd.read_csv(all_news_filepath)
+#def looking_for_certain_news(all_news_filepath, certain_news_filepath, target1, target2):
+    #df = pd.read_csv(all_news_filepath)
     
-    result = df.apply(lambda x: x.str.contains(target1, na=False,
-                                    flags = re.IGNORECASE, regex=True)).any(axis=1)
-    result2 = df.apply(lambda x: x.str.contains(target2, na=False,
-                                    flags = re.IGNORECASE, regex=True)).any(axis=1)
-    new_df = df[result&result2]
+    #result = df.apply(lambda x: x.str.contains(target1, na=False,
+                                    #flags = re.IGNORECASE, regex=True)).any(axis=1)
+    #result2 = df.apply(lambda x: x.str.contains(target2, na=False,
+                                    #flags = re.IGNORECASE, regex=True)).any(axis=1)
+    #new_df = df[result&result2]
         
-    new_df.to_csv(certain_news_filepath
-                     ,sep = '\t', encoding='utf-8-sig')
+    #new_df.to_csv(certain_news_filepath
+                     #,sep = '\t', encoding='utf-8-sig')
         
-    return new_df
+    #return new_df
 
-write_all_news(f_all_news) #все новости
+#write_all_news(f_all_news) #все новости
 
  
 root = Tk()
