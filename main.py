@@ -2,7 +2,8 @@ import feedparser
 import csv
 import pandas as pd
 import re
-import tkinter
+
+from tkinter import *
 
 our_feeds = {'RBC': 'https://rssexport.rbc.ru/rbcnews/news/30/full.rss'}
 
@@ -55,7 +56,7 @@ for key,url in our_feeds.items():
 def write_all_news(all_news_filepath): #функция для записи всех новостей в .csv, возвращает нам этот датасет
     header = ['Title','Links','Publication Date'] 
 
-    with open(all_news_filepath, 'w', encoding='utf-8') as csvfile:
+    with open(all_news_filepath, 'w', encoding='utf-8-sig') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
 
         writer.writerow(i for i in header) 
@@ -89,6 +90,46 @@ def looking_for_certain_news(all_news_filepath, certain_news_filepath, target1, 
         
     return new_df
 
-
-
 write_all_news(f_all_news) #все новости
+
+ 
+root = Tk()
+
+def btn_click():
+    window = Toplevel()
+    window.title("Список совпадений")
+    window.geometry("900x720")
+
+    listbox = Listbox(window)
+    listbox.place(relwidth = 1, relheight = 1)
+ 
+    listbox.insert(END, "Результаты поиска:")
+ 
+    with open('allnews.csv', 'r', encoding='utf-8-sig') as file:
+        for i in file.readlines():
+            if allheadlines in i:
+                with open('log.txt', 'w', encoding='utf-8-sig') as f2:
+                    f2.write(i)
+
+
+root.title('Get news from')
+root.geometry('300x250')
+
+root.resizable(width=False, height=False)
+
+Canvas = Canvas(root, height=300, width=250)
+Canvas.pack()
+
+frame = Frame(root)
+frame.place(relx = 0.15, rely = 0.15, relwidth = 0.7, relheight = 0.7)
+
+title = Label(frame, text='Ввод темы', font='18')
+title.pack(anchor=N)
+
+Input = Entry(frame, bg='white')
+Input.pack(anchor=CENTER)
+
+btn = Button(frame, text = 'Запросить', bg='#5991ff', command=btn_click)
+btn.pack(anchor=S)
+ 
+root.mainloop()
