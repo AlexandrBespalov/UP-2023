@@ -59,7 +59,7 @@ def write_all_news(all_news_filepath): #функция для записи вс�
     with open(all_news_filepath, 'w', encoding='utf-8-sig') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
 
-        writer.writerow(i for i in header) 
+        writer.writerow(i for i in header)
 
         for a,b,c  in zip(allheadlines, alllinks, alldates):
             writer.writerow((a,b,c))
@@ -90,26 +90,30 @@ def write_all_news(all_news_filepath): #функция для записи вс�
         
     #return new_df
 
-#write_all_news(f_all_news) #все новости
+write_all_news(f_all_news) #все новости
 
- 
+
+#GUI
 root = Tk()
 
 def btn_click():
-    window = Toplevel()
-    window.title("Список совпадений")
-    window.geometry("900x720")
+    k = Input.get()
 
-    listbox = Listbox(window)
-    listbox.place(relwidth = 1, relheight = 1)
+    # window = Toplevel()
+    # window.title("Список совпадений")
+    # window.geometry("900x720")
+
+    # listbox = Listbox(window)
+    # listbox.place(relwidth = 1, relheight = 1)
+    error = True
  
-    listbox.insert(END, "Результаты поиска:")
- 
-    with open('allnews.csv', 'r', encoding='utf-8-sig') as file:
-        for i in file.readlines():
-            if allheadlines in i:
-                with open('log.txt', 'w', encoding='utf-8-sig') as f2:
-                    f2.write(i)
+    with open('allnews.csv', 'r', encoding='utf-8-sig') as csvfile:
+        for i in csvfile.readlines():
+            if k in i:
+                print(i)
+                error = False
+        if error:
+            print('Ошибка, новости не найдены.')
 
 
 root.title('Get news from')
