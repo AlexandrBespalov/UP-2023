@@ -20,11 +20,11 @@ def getHeadlines(url_feed): #функция для получения загол
         category.append(item_of_news ['category'])
     return category
 
-def getLinks(url_feed): #функция для получения ссылки на источник новости
+def getTitles(url_feed): #функция для получения ссылки на источник новости
     link = []
     lenta = check_url(url_feed)
     for item_of_news in lenta['items']:
-        link.append(item_of_news ['link'])
+        link.append(item_of_news ['title'])
     return link
 
 def getDates(url_feed): #функция для получения даты публикации новости
@@ -38,7 +38,7 @@ def getDates(url_feed): #функция для получения даты пу�
 
 
 allheadlines = []
-alllinks = []
+alltitles = []
 alldates = []
 
 # Прогоняем наши URL и добавляем их в пустые списки
@@ -46,7 +46,7 @@ for key,url in our_feeds.items():
     allheadlines.extend( getHeadlines(url) )
     
 for key,url in our_feeds.items():
-    alllinks.extend( getLinks(url) )
+    alltitles.extend( getTitles(url) )
     
 for key,url in our_feeds.items():
     alldates.extend( getDates(url) )
@@ -54,21 +54,21 @@ for key,url in our_feeds.items():
 
 
 def write_all_news(all_news_filepath): #функция для записи всех новостей в .csv, возвращает нам этот датасет
-    header = ['Title','Links','Publication Date'] 
+    header = ['Category',' Title',' Publication Date'] 
 
     with open(all_news_filepath, 'w', encoding='utf-8-sig') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
 
         writer.writerow(i for i in header)
 
-        for a,b,c  in zip(allheadlines, alllinks, alldates):
+        for a,b,c  in zip(allheadlines, alltitles, alldates):
             writer.writerow((a,b,c))
         print(all_news_filepath)
 
         #df = pd.read_csv(all_news_filepath) #рудиментарная штука
 
 
-    with open(all_news_filepath, 'r') as csv_file:
+    with open(all_news_filepath, 'r', encoding='utf-8-sig') as csv_file:
         df = pd.read_csv(csv_file, na_filter=False)
 
         return df
